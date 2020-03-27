@@ -1,5 +1,5 @@
-FROM php:7-apache
-MAINTAINER codyrigg
+FROM php:7.4-apache
+MAINTAINER ctucker
 
 RUN apt-get update && \
     apt-get install -y vim \
@@ -10,29 +10,31 @@ RUN apt-get update && \
     libjpeg62-turbo-dev \
     zlib1g-dev \
     libicu-dev \
-    g++ \
-	libldap2-dev&& \
-    rm -rf /var/lib/apt/lists/* 
-	
+    g++ 
+    
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install extensions
 RUN docker-php-ext-configure intl \
     && docker-php-ext-install intl
 
-RUN docker-php-ext-install -j$(nproc) mysqli pdo pdo_mysql \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
-    
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN mkdir /var/www/parking && chown www-data: /var/www/parking -R && \
-    chmod 0755 /var/www/parking -R
+WORKDIR /var/www
+
+RUN mkdir /var/www/zoom-recordings && chown www-data: /var/www/zoom-recordings -R && \
+    chmod 0755 /var/www/zoom-recordings -R
+    
+COPY ./config/zoom-recordings.conf /etc/apache2/sites-available/zoom-recordings.conf
+COPY ./config/zoom-recordings.php.ini /etc/apache2/conf.d/zoom-recordings.php.ini
+
+RUN a2ensite zoom-recordings.conf && a2dissite 000-default.conf && a2enmod rewrite
 	
-COPY ./config/parking.conf /etc/apache2/sites-available/parking.conf
-RUN mkdir -p /var/www/parking/current
+RUN mkdir -p /var/www/zoom-recordings/current
 
-RUN a2ensite parking.conf && a2dissite 000-default.conf && a2enmod rewrite
-
-WORKDIR /var/www/parking
+WORKDIR /var/www/zoom-parking
 
 EXPOSE 80
 
