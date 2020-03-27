@@ -33,6 +33,7 @@ COPY ./config/zoom-recordings.php.ini /etc/apache2/conf.d/zoom-recordings.php.in
 RUN a2ensite zoom-recordings.conf && a2dissite 000-default.conf && a2enmod rewrite
 	
 RUN mkdir -p /var/www/zoom-recordings/current/public
+RUN mkdir -p /var/www/zoom-recordings/releases
 
 WORKDIR /var/www/zoom-recordings
 
