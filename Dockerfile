@@ -24,17 +24,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 WORKDIR /var/www
 
-RUN mkdir /var/www/zoom_recordings && chown www-data: /var/www/zoom_recordings -R && \
-    chmod 0755 /var/www/zoom_recordings -R
+RUN mkdir /var/www/zoom-recordings && chown www-data: /var/www/zoom-recordings -R && \
+    chmod 0755 /var/www/zoom-recordings -R
     
-COPY ./config/zoom_recordings.conf /etc/apache2/sites-available/zoom_recordings.conf
-COPY ./config/zoom_recordings.php.ini /etc/apache2/conf.d/zoom_recordings.php.ini
+COPY ./config/zoom-recordings.conf /etc/apache2/sites-available/zoom-recordings.conf
+COPY ./config/zoom-recordings.php.ini /etc/apache2/conf.d/zoom-recordings.php.ini
 
-RUN a2ensite zoom_recordings.conf && a2dissite 000-default.conf && a2enmod rewrite
+RUN a2ensite zoom-recordings.conf && a2dissite 000-default.conf && a2enmod rewrite
 	
-RUN mkdir -p /var/www/zoom_recordings/current/public
+RUN mkdir -p /var/www/zoom-recordings/current/public
 
-WORKDIR /var/www/zoom_recordings
+WORKDIR /var/www/zoom-recordings
 
 EXPOSE 80
 
