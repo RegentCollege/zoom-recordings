@@ -34,7 +34,7 @@ RUN a2ensite zoom-recordings.conf && a2dissite 000-default.conf && a2enmod rewri
 	
 RUN mkdir -p /var/www/zoom-recordings/current
 
-WORKDIR /var/www/zoom-parking
+WORKDIR /var/www/zoom-recordings
 
 EXPOSE 80
 
