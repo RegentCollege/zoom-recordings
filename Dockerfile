@@ -41,6 +41,6 @@ RUN mkdir -p /var/www/zoom-recordings/current/public
 
 RUN a2ensite zoom-recordings.conf && a2dissite 000-default.conf && chmod u+x /usr/local/bin/start && a2enmod rewrite
 
-WORKDIR /var/www/zoom-recordings/current
+WORKDIR /var/www/zoom-recordings
 
 CMD ["/usr/local/bin/start"]
