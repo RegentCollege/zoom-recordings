@@ -14,10 +14,6 @@ if [ "$role" = "app" ]; then
 
     exec apache2-foreground
 
-elif [ "$role" = "queue" ]; then
-
-    #exec php artisan queue:work
-
 else
     echo "Could not match the container role \"$role\""
     exit 1
