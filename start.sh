@@ -16,15 +16,7 @@ if [ "$role" = "app" ]; then
 
 elif [ "$role" = "queue" ]; then
 
-    exec supervisord
-
-elif [ "$role" = "scheduler" ]; then
-
-    while [ true ]
-    do
-      php /var/www/zoom-recordings/current/artisan schedule:run --verbose --no-interaction &
-      sleep 60
-    done
+    exec php artisan queue:work
 
 else
     echo "Could not match the container role \"$role\""

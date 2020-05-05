@@ -18,8 +18,7 @@ RUN apt-get update && pecl install redis && apt-get install -y \
     libonig-dev \
     zlib1g-dev \
     libicu-dev \
-    g++ \
-    supervisor
+    g++ 
     
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -36,13 +35,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     
 COPY ./config/zoom-recordings.conf /etc/apache2/sites-available/zoom-recordings.conf
 COPY ./config/zoom-recordings.php.ini /etc/apache2/conf.d/zoom-recordings.php.ini
-COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY start.sh /usr/local/bin/start
 	
 RUN mkdir -p /var/www/zoom-recordings/current/public
 
 RUN a2ensite zoom-recordings.conf && a2dissite 000-default.conf && chmod u+x /usr/local/bin/start && a2enmod rewrite
 
-WORKDIR /var/www/zoom-recordings
+WORKDIR /var/www/zoom-recordings/current
 
 CMD ["/usr/local/bin/start"]
