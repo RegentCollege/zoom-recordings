@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8-apache
 MAINTAINER ctucker
 
 RUN apt-get update && pecl install redis && apt-get install -y \
